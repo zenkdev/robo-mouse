@@ -3,15 +3,28 @@
 // Move the mouse across the screen as a sine wave.
 const robot = require('robotjs');
 const figlet = require('figlet');
+const chalk = require('chalk');
 
 const TITLE = 'Robo-mouse';
 const TITLE_FONT = 'Ghost';
-const MESSAGE_FONT = 'Small';
 const REPEAT_TIMEOUT = 1 * 60 * 1000;
 
 const logger = console;
 
+// eslint-disable-next-line no-console
 logger.log(figlet.textSync(TITLE, TITLE_FONT) || TITLE);
+
+function writeLog(text) {
+  const d = new Date(); // [2022-07-03T16:20:46.980]
+  const year = d.getFullYear();
+  const month = `${d.getMonth() + 1}`.padStart(2, '0');
+  const day = `${d.getDate()}`.padStart(2, '0');
+  const hour = `${d.getHours()}`.padStart(2, '0');
+  const minute = `${d.getMinutes()}`.padStart(2, '0');
+  const second = `${d.getSeconds()}`.padStart(2, '0');
+  const millisec = `${d.getMilliseconds()}`.padStart(3, '0');
+  logger.log(chalk.bold(`[${year}-${month}-${day} ${hour}:${minute}:${second}.${millisec}]`), '-', text);
+}
 
 // Speed up the mouse.
 robot.setMouseDelay(1);
@@ -22,13 +35,14 @@ const height = screenSize.height / 2 - 10;
 const { width } = screenSize;
 
 function moveMouse() {
-  logger.log(figlet.textSync('move', MESSAGE_FONT));
+  writeLog('move');
   for (let x = 0; x < width; x += 1) {
     const y = height * Math.sin((twoPI * x) / width) + height;
     robot.moveMouse(x, y);
   }
-  logger.log(figlet.textSync('sleep', MESSAGE_FONT));
+  writeLog('sleep');
   setTimeout(moveMouse, REPEAT_TIMEOUT);
 }
 
+writeLog('start');
 setTimeout(moveMouse, REPEAT_TIMEOUT);
