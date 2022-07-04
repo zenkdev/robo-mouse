@@ -34,11 +34,25 @@ const screenSize = robot.getScreenSize();
 const height = screenSize.height / 2 - 10;
 const { width } = screenSize;
 
+let mousePos = robot.getMousePos();
+
+function isMouseMoved() {
+  const pos = robot.getMousePos();
+  if (pos.x !== mousePos.x || pos.y !== mousePos.y) {
+    mousePos = pos;
+    return true;
+  }
+  return false;
+}
+
 function moveMouse() {
-  writeLog('move');
-  for (let x = 0; x < width; x += 1) {
-    const y = height * Math.sin((twoPI * x) / width) + height;
-    robot.moveMouse(x, y);
+  if (!isMouseMoved()) {
+    writeLog('move');
+    for (let x = 0; x < width; x += 1) {
+      const y = height * Math.sin((twoPI * x) / width) + height;
+      robot.moveMouse(x, y);
+    }
+    robot.moveMouse(mousePos.x, mousePos.y);
   }
   writeLog('sleep');
   setTimeout(moveMouse, REPEAT_TIMEOUT);
