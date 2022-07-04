@@ -27,7 +27,7 @@ function writeLog(text) {
 }
 
 // Speed up the mouse.
-robot.setMouseDelay(1);
+robot.setMouseDelay(0);
 
 const twoPI = Math.PI * 2.0;
 const screenSize = robot.getScreenSize();
