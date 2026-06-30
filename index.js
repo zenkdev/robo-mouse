@@ -11,7 +11,7 @@ const REPEAT_TIMEOUT = 1 * 60 * 1000;
 
 const logger = console;
 
-// eslint-disable-next-line no-console
+ 
 logger.log(figlet.textSync(TITLE, TITLE_FONT) || TITLE);
 
 function writeLog(text) {
